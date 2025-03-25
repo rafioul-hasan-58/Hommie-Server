@@ -44,6 +44,6 @@ const loginUser = async (payload: IAuth) => {
 
 
 
-export const authController = {
+export const AuthService = {
     loginUser
 }
