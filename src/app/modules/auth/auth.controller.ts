@@ -3,6 +3,7 @@ import sendResponse from "../../utils/sendResponse";
 import httpStatus from 'http-status'
 import { AuthService } from "./auth.service";
 import config from "../../config";
+import { Request, Response } from "express";
 
 const loginUser = catchAsync(async (req, res) => {
     const result = await AuthService.loginUser(req.body);
@@ -25,8 +26,20 @@ const loginUser = catchAsync(async (req, res) => {
         },
     });
 });
+const refreshToken = catchAsync(async (req: Request, res: Response) => {
+    const { authorization } = req.headers;
 
+    const result = await AuthService.refreshToken(authorization as string);
+
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: "User logged in successfully!",
+        data: result,
+    });
+});
 
 export const AuthController = {
-    loginUser
+    loginUser,
+    refreshToken
 }
