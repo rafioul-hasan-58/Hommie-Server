@@ -1,3 +1,4 @@
+import { Model } from "mongoose";
 import { Types } from "mongoose";
 
 export interface IUser {
@@ -9,4 +10,16 @@ export interface IUser {
     phone: number;
     password: string;
     role: 'admin' | 'landlord' | 'tenant';
+    isBlocked: boolean
+}
+export interface IPassword {
+    current_password: string;
+    new_password: string;
+}
+
+export interface UserModel extends Model<IUser> {
+    isUserExistsByEmail(email: string): Promise<IUser>
+    isPasswordMatched(plainTextPassword: string, hashedPassword: string): Promise<boolean>
+
+
 }

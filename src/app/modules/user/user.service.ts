@@ -1,4 +1,4 @@
-import { IUser } from "./user.interface";
+import { IPassword, IUser } from "./user.interface";
 import { User } from "./user.model";
 
 
@@ -7,8 +7,21 @@ const createUserIntoDB = async (payload: IUser) => {
     return result
 }
 
+const getMyProfile = async (email: string) => {
+    const result = await User.findOne({ email });
+    if (!result) {
+        throw Error('User not found')
+    }
+    return result
+}
+
+const updatePassword = async (payload: IPassword) => {
+
+}
 
 
 export const userService = {
-    createUserIntoDB
+    createUserIntoDB,
+    getMyProfile,
+    updatePassword
 }

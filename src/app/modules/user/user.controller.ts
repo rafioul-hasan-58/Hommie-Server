@@ -12,7 +12,20 @@ const createUserIntoDB = catchAsync(async (req: Request, res: Response) => {
         data: result
     })
 })
+const getMyProfile = catchAsync(async (req: Request, res: Response) => {
+    const { email } = req.body;
+    const result = await userService.getMyProfile(email)
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'My profile retrived successfully',
+        data: result
+    })
+})
+
+
 
 export const userController = {
-    createUserIntoDB
+    createUserIntoDB,
+    getMyProfile
 }
