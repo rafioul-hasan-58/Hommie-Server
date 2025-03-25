@@ -4,6 +4,8 @@ import { IAuth, IJWTPayload } from "./auth.interface";
 import httpStatus from 'http-status'
 import { createToken, verifyToken } from "./auth.utils";
 import config from "../../config";
+import bcrypt from 'bcrypt';
+import { JwtPayload } from "jsonwebtoken";
 
 
 const loginUser = async (payload: IAuth) => {
@@ -66,13 +68,31 @@ const refreshToken = async (token: string) => {
     }
 }
 
-const changePassword=async()=>{
-    
+const changePassword = async (userData: JwtPayload, payload: { oldPassword: string, newPassword: string }) => {
+    const { email, _id } = userData;
+    const { oldPassword, newPassword } = payload;
+    const user = await User.isUserExistsByEmail(email);
+    if (!user) {
+        throw new AppError(httpStatus.NOT_FOUND, 'User not found to change password')
+    }
+
+    const isPasswordCorrect = await User.isPasswordMatched(oldPassword, user?.password);
+    if (!isPasswordCorrect) {
+        throw new AppError(httpStatus.NOT_ACCEPTABLE, 'Password doesnot match');
+    }
+
+    // hash password
+    const hashedNewPassword = await bcrypt.hash(newPassword, Number(config.bcrypt_salt_rounds));
+
+    await User.findByIdAndUpdate(_id, { password: hashedNewPassword })
+    return { message: 'Password Changed Successfully' }
+
 }
 
 
 
 export const AuthService = {
     loginUser,
-    refreshToken
+    refreshToken,
+    changePassword
 }
