@@ -23,3 +23,8 @@ export interface UserModel extends Model<IUser> {
 
 
 }
+export enum UserRole {
+    ADMIN = 'admin',
+    LANDLORD = 'landlord',
+    TENANAT = 'tenant'
+}
