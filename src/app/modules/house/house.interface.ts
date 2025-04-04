@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
 
-export interface IListing {
+export interface IHouse {
     _id?: Types.ObjectId;
     location: string;
     images: string[];

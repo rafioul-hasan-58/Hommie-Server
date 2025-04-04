@@ -1,8 +1,6 @@
 import { model, Schema } from "mongoose";
-import { IListing } from "./listing.interface";
-
-
-const listingSchema = new Schema<IListing>(
+import { IHouse } from "./house.interface";
+const houseSchema = new Schema<IHouse>(
     {
         location: {
             type: String,
@@ -32,7 +30,7 @@ const listingSchema = new Schema<IListing>(
             type: [String],
             validate: {
                 validator: function (value: string[]) {
-                    return value.every(url => /^https?:\/\/.+\..+/.test(url)); // Simple URL validation
+                    return value.every(url => /^https?:\/\/.+\..+/.test(url));
                 },
                 message: "Each image must be a valid URL"
             }
@@ -42,4 +40,4 @@ const listingSchema = new Schema<IListing>(
         timestamps: true
     })
 
-export const Listing = model<IListing>('linsting', listingSchema)
+export const House = model<IHouse>('house', houseSchema)

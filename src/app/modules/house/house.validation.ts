@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const listingValidationSchema = z.object({
+const houseValidationSchema = z.object({
     location: z.string().min(1, { message: "Location is required" }),
     bedrooms: z.number().int().positive({ message: "Bedrooms must be a positive number" }),
     bathrooms: z.number().int().positive({ message: "Bathrooms must be a positive number" }),
@@ -9,7 +9,7 @@ const listingValidationSchema = z.object({
     landlord: z.string().min(1, { message: "Landlord ID is required" }),
     images: z.array(z.string().url({ message: "Each image must be a valid URL" }))
 });
-const updateListingValidationSchema = z.object({
+const updatehouseValidationSchema = z.object({
     location: z.string().min(1, { message: "Location is required" }).optional(),
     bedrooms: z.number().int().positive({ message: "Bedrooms must be a positive number" }).optional(),
     bathrooms: z.number().int().positive({ message: "Bathrooms must be a positive number" }).optional(),
@@ -18,7 +18,7 @@ const updateListingValidationSchema = z.object({
     landlord: z.string().min(1, { message: "Landlord ID is required" }).optional(),
     images: z.array(z.string().url({ message: "Each image must be a valid URL" })).optional()
 });
-export const listingValidations = {
-    listingValidationSchema,
-    updateListingValidationSchema
+export const houseValidations = {
+    houseValidationSchema,
+    updatehouseValidationSchema
 }
